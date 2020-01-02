@@ -19,9 +19,9 @@ The PlayStation verifies the wake request by the source device's MAC address, so
 Here's the instructions on how to get the User Credential - this is a once-off process:
 
 * You will need:
-    ** a PlayStation
-    ** a computer with VirtualBox installed on it
-    ** a mobile device (for the PS4 Second Screen app)
+    * a PlayStation
+    * a computer with VirtualBox installed on it
+    * a mobile device (for the PS4 Second Screen app)
 * Find the MAC address of your Hubitat (either through your router's client list, or look underneath the Hubitat box itself)
 * Safely shutdown your Hubitat (so you don't get two MAC addresses on the same network)
 * Create new VirtualBox machine, give it a name
@@ -32,11 +32,11 @@ Here's the instructions on how to get the User Credential - this is a once-off p
 * Under Network, set Attached To to Bridged Adapter, then click Advanced, and set the MAC address to the same MAC address as your Hubitat
 * Save, then Start your machine
 * Install Debian with default settings
-    ** Mostly just keep clicking Continue
-    ** Set the machine hostname to start with something like 'hubitat' - the first 6 letters of the name will be shown on the PlayStation when you list mobile devices
-    ** Set a password for the root account and a user, and remember them
-    ** Confirm 'write changes to disk' at the end of the Partitioning section
-    ** Select the existing hard drive for the GRUB bootloader (not Manual)
+    * Mostly just keep clicking Continue
+    * Set the machine hostname to start with something like 'hubitat' - the first 6 letters of the name will be shown on the PlayStation when you list mobile devices
+    * Set a password for the root account and a user, and remember them
+    * Confirm 'write changes to disk' at the end of the Partitioning section
+    * Select the existing hard drive for the GRUB bootloader (not Manual)
 * Once Debian has installed and rebooted, login with your password and start a Terminal session (in the graphical interface, click Activities, then type Terminal in the search box to find it)
 * Switch to the root user: su root
 * Install npm: sudo apt install npm
