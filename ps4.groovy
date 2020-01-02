@@ -1,7 +1,7 @@
 /*
  * PlayStation 4 driver
  *
- * For detecting status of your PlayStation 4.
+ * For detecting status of your PlayStation 4, and waking it up from standby.
  * 
  */
 
@@ -23,6 +23,7 @@ metadata {
 preferences {
     section("URIs") {
         input "ipAddress", "text", title: "IP Address", required: true
+        input "userCredential", "text", title: "User Credential", required: false
         input "pollInterval", "text", title: "Poll interval (minutes, or 0 for off)", required: true, defaultValue: "0"
         input name: "logEnable", type: "bool", title: "Enable debug logging", defaultValue: true
     }
@@ -43,9 +44,11 @@ def updated() {
 def refresh() {
     if (state.stillWaiting)
     {
-        log.warn 'already checking status - please wait for response before checking again';
+        log.warn 'already sending message - please wait for response before trying again';
         return;
     }
+    state.stillWaiting = true;
+    runIn(7, noResponse);
 	sendMsg("SRCH * HTTP/1.1\r\ndevice - discovery - protocol - version:00020020\r\n", refreshCallback);
 }
 def noResponse() {
@@ -95,10 +98,27 @@ def refreshCallback(String response) {
     }
 }
 def on() {
-	log.warn 'Changing PlayStation 4 status is currently unsupported.';
+    if (settings.userCredential == null)
+    {
+        log.error 'User Credential is required for changing power status';
+        return;
+    }
+    if (state.stillWaiting)
+    {
+        log.warn 'already sending message - please wait for response before trying again';
+        return;
+    }
+    sendMsg("WAKEUP * HTTP/1.1\nclient-type:a\nauth-type:C\nuser-credential:" + settings.userCredential + "\ndevice-discovery-protocol-version:00020020\n\n", onCallback);
+    //assume it works & update status immediately (if it hasn't worked, then the automatic polling will update it next time it checks)
+    sendEvent(name: "switch", value: "on", isStateChange: true);
+    sendEvent(name: "power", value: "on", isStateChange: true);
+}
+def onCallback(String description) {
+    if (logEnable)
+        log.info description;
 }
 def off() {
-	log.warn 'Changing PlayStation 4 status is currently unsupported.';
+	log.warn 'Turning off PlayStation 4 is currently unsupported.';
 }
 def parse(String description) {
 }
@@ -106,8 +126,6 @@ def sendMsg(msg, msgResponse) {
 	if (logEnable)
         log.info 'sending:'+msg;
 	
-    state.stillWaiting = true;
-    runIn(7, noResponse);
 	def myHubAction = new hubitat.device.HubAction(msg, 
                            hubitat.device.Protocol.LAN, 
                            [type: hubitat.device.HubAction.Type.LAN_TYPE_UDPCLIENT, 
