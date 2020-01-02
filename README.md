@@ -13,31 +13,30 @@ Hubitat Driver for detecting status of your PlayStation 4, and waking it up from
 ## Wake from Standby
 
 To be able to wake the PS4 from standby mode, you need to get a User Credential from linking a device to your PlayStation.
+
 The PlayStation verifies the wake request by the source device's MAC address, so you can only make this work by using your Hubitat's MAC address to make the initial device link. We can't make the initial device link from the Hubitat, because it requires binding to a specific port for listening, so the workaround is to copy the Hubitat's MAC address and make the initial device link with [PS4-Waker](https://github.com/dhleong/ps4-waker). Then any later requests from Hubitat will work.
 
 Here's the instructions on how to get the User Credential - this is a once-off process:
 
 * You will need:
-** a PlayStation
-** a computer with VirtualBox installed on it
-** a mobile device (for the PS4 Second Screen app)
+    ** a PlayStation
+    ** a computer with VirtualBox installed on it
+    ** a mobile device (for the PS4 Second Screen app)
 * Find the MAC address of your Hubitat (either through your router's client list, or look underneath the Hubitat box itself)
 * Safely shutdown your Hubitat (so you don't get two MAC addresses on the same network)
-* Create new VirtualBox machine
-* Give it a name
-* Select Linux as the operating system
-* Leave everything else as default
+* Create new VirtualBox machine, give it a name
+* Select Linux as the operating system, leave everything else as default
 * Download the latest Debian ISO image (netinst version is fine)
 * Before starting the new machine, click Settings
 * Under Storage, set the CD drive to point to your Debian ISO
 * Under Network, set Attached To to Bridged Adapter, then click Advanced, and set the MAC address to the same MAC address as your Hubitat
 * Save, then Start your machine
 * Install Debian with default settings
-** Mostly just keep clicking Continue
-** Set the machine hostname to start with something like 'hubitat' - the first 6 letters of the name will be shown on the PlayStation when you list mobile devices
-** Set a password for the root account and a user, and remember them
-** Confirm 'write changes to disk' at the end of the Partitioning section
-** Select the existing hard drive for the GRUB bootloader (not Manual)
+    ** Mostly just keep clicking Continue
+    ** Set the machine hostname to start with something like 'hubitat' - the first 6 letters of the name will be shown on the PlayStation when you list mobile devices
+    ** Set a password for the root account and a user, and remember them
+    ** Confirm 'write changes to disk' at the end of the Partitioning section
+    ** Select the existing hard drive for the GRUB bootloader (not Manual)
 * Once Debian has installed and rebooted, login with your password and start a Terminal session (in the graphical interface, click Activities, then type Terminal in the search box to find it)
 * Switch to the root user: su root
 * Install npm: sudo apt install npm
