@@ -38,17 +38,17 @@ Here's the instructions on how to get the User Credential - this is a once-off p
     * Confirm 'write changes to disk' at the end of the Partitioning section
     * Select the existing hard drive for the GRUB bootloader (not Manual)
 * Once Debian has installed and rebooted, login with your password and start a Terminal session (in the graphical interface, click Activities, then type Terminal in the search box to find it)
-* Switch to the root user: su root
-* Install npm: sudo apt install npm
-* Install the ps4-waker node package globally: npm install ps4-waker -g
+* Switch to the root user: `su root`
+* Install npm: `sudo apt install npm`
+* Install the ps4-waker node package globally: `npm install ps4-waker -g`
 * Install the official PS4 Second Screen app on your mobile phone, and login to your PlayStation account
 * On your PlayStation, go to Settings, Mobile App Connection Settings, Add Device
 * Run ps4-waker on your virtual machine
 * On your mobile phone, in the PS4 Second Screen app, select the 'PS4 Waker' device
 * ps4-waker will now ask for a PIN code - enter the PIN code displayed on the PlayStation
 * Done (you can close the PS4 Second Screen app on your phone now)
-* On the virtual machine, type cat ~/.ps4-wake.credentials.json
-* Copy down the value for "user-credential"
+* On the virtual machine, type: `cat ~/.ps4-wake.credentials.json`
+* Copy down the value for `"user-credential"`
 * Shutdown the virtual machine
 * Turn your Hubitat back on
 * Paste the User Credential code into your PS4 device's settings, and click Save
